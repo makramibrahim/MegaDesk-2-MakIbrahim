@@ -21,7 +21,7 @@ namespace MegaDesk_4_Makram_Ibrahim
             try
             {
                 string QuoteFile = @"quotes.txt";
-                using (StreamReader sr = new StreamReader(QuoteFile))
+                StreamReader sr = new StreamReader(QuoteFile);
                 {
                     
                     while ((line = sr.ReadLine()) != null)
@@ -29,10 +29,11 @@ namespace MegaDesk_4_Makram_Ibrahim
                         ViewQuotesBox.Items.Add(line);
                     }
                 }
+                sr.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "Error wirting to the file");
+                MessageBox.Show(ex.Message + "Error reading the file");
             }
         }
 

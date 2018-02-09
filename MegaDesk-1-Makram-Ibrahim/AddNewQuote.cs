@@ -24,6 +24,8 @@ namespace MegaDesk_4_Makram_Ibrahim
         int RushOrderDays = 0;
         decimal DeskQuotePrice = 0;
         DeskQuote deskQuote = new DeskQuote();
+        string QuoteDate = DateTime.Now.ToString("dd MMMMM yyyy");
+
 
         //Priced items with fiexed values
         private const int RUSH_DAYS1 = 3;
@@ -32,6 +34,10 @@ namespace MegaDesk_4_Makram_Ibrahim
         private const int RUSH_HOLD = 2000;
 
 
+        /********************************************
+         * Add New Quote: stroe the surface materials 
+         * in Generic list. 
+         * *******************************************/
         public AddNewQuote()
         {
             InitializeComponent();
@@ -42,6 +48,9 @@ namespace MegaDesk_4_Makram_Ibrahim
             materialsOutput.Text = "";
         }
 
+        /********************************************
+         * AddQuote_FormClosed(): event
+         * *****************************************/
         private void AddQuote_FormClosed(Object sender, FormClosedEventArgs e)
         {
             var ReturnMainMenu = (MainMenu)Tag;
@@ -49,6 +58,9 @@ namespace MegaDesk_4_Makram_Ibrahim
             this.Close();
         }
 
+        /********************************************
+         * CancelBtn_Click(): event
+         * *****************************************/
         private void CancelBtn_Click(object sender, MouseEventArgs e)
         {
             var mainMenu = (MainMenu)Tag;
@@ -56,7 +68,9 @@ namespace MegaDesk_4_Makram_Ibrahim
             Close();
         }
 
-
+        /********************************************
+         * Width_Validating(): event
+         * *****************************************/
         private void Width_Validating(object sender, CancelEventArgs e)
         {
             string Message;
@@ -72,6 +86,9 @@ namespace MegaDesk_4_Makram_Ibrahim
             }
         }
 
+        /********************************************
+        * Width_Validating(): event
+        * *****************************************/
         private void Width_Validated(object sender, EventArgs e)
         {
 
@@ -79,6 +96,9 @@ namespace MegaDesk_4_Makram_Ibrahim
             width.BackColor = default(Color);
         }
 
+        /********************************************
+        *  Depth_Validating(): event
+        * *****************************************/
         private void Depth_Validating(object sender, CancelEventArgs e)
         {
             string Message;
@@ -94,6 +114,9 @@ namespace MegaDesk_4_Makram_Ibrahim
             }
         }
 
+        /********************************************
+        *  Depth_Validating(): event
+        * *****************************************/
         private void Depth_Validated(object sender, EventArgs e)
         {
 
@@ -101,6 +124,9 @@ namespace MegaDesk_4_Makram_Ibrahim
             depth.BackColor = default(Color);
         }
 
+        /********************************************
+        * bool ValidWidth():
+        * *****************************************/
         public bool ValidWidth(string width, out string Message)
         {
 
@@ -124,6 +150,9 @@ namespace MegaDesk_4_Makram_Ibrahim
             return false;
         }
 
+        /******************************************
+        * bool ValidWidth():
+        * *****************************************/
         public bool ValidDepth(string depth, out string Message)
         {
 
@@ -147,6 +176,9 @@ namespace MegaDesk_4_Makram_Ibrahim
             return false;
         }
 
+        /******************************************
+        * void CharValidation()
+        * *****************************************/
         private void CharValidation(object sender, KeyPressEventArgs e)
         {
             if ((!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) && (e.KeyChar != '.'))
@@ -156,7 +188,29 @@ namespace MegaDesk_4_Makram_Ibrahim
             }
         }
 
+        /******************************************
+        * On click event, call other methods to display.
+        * *****************************************/
         private void DeskQuoteBtn_Click(object sender, EventArgs e)
+        {
+            RushOrder();
+            WriteFile();
+
+            var MainMenu = (MainMenu)Tag;
+            DisplayQuote newOrderView = new DisplayQuote(ClientName, QuoteDate, DeskWidth,
+                DeskDepth, Drawers, surfMaterials, RushOrderDays, DeskQuotePrice)
+            {
+                Tag = MainMenu
+            };
+            newOrderView.Show();
+            this.Close();
+        }
+
+
+        /******************************************
+        * RushOrder: get the 
+        * *****************************************/
+        public void RushOrder()
         {
             try
             {
@@ -187,29 +241,34 @@ namespace MegaDesk_4_Makram_Ibrahim
                         break;
                 }
 
-                DeskQuote NewOrder = new DeskQuote(ClientName, DateTime.Now, DeskWidth,
-                    DeskDepth, Drawers, surfMaterials, RushOrderDays);
+                DeskQuote NewOrder = new DeskQuote(ClientName, DateTime.Now, DeskWidth, DeskDepth,
+                                        Drawers, surfMaterials, RushOrderDays);
                 DeskQuotePrice = NewOrder.CalQuoteTotal();
                 DeskQuotePrice = Math.Round(DeskQuotePrice, 2);
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error!");
             }
 
-            string QuoteDate = DateTime.Now.ToString("dd MMMMM yyyy");
+        }
 
+        private void WriteFile()
+        {
             try
             {
                 var DeskFile = ClientName + ", Date: " + QuoteDate + ", Width: " + DeskWidth + ", Depth: " + DeskDepth
                     + ", Drawers: " + Drawers + ", Materials: " + surfMaterials + ", Rush: " + RushOrderDays + ", $" + DeskQuotePrice;
                 string QuoteFile = @"quotes.txt";
+
                 if (!File.Exists(QuoteFile))
                 {
                     using (StreamWriter sw = File.CreateText(QuoteFile))
                     {
                     }
                 }
+
                 using (StreamWriter sw = File.AppendText(QuoteFile))
                 {
                     sw.WriteLine(DeskFile);
@@ -219,15 +278,6 @@ namespace MegaDesk_4_Makram_Ibrahim
             {
                 MessageBox.Show(ex.Message + "Error, writing to the file");
             }
-
-            var MainMenu = (MainMenu)Tag;
-            DisplayQuote newOrderView = new DisplayQuote(ClientName, QuoteDate, DeskWidth,
-                DeskDepth, Drawers, surfMaterials, RushOrderDays, DeskQuotePrice)
-            {
-                Tag = MainMenu
-            };
-            newOrderView.Show();
-            this.Close();
         }
 
     }

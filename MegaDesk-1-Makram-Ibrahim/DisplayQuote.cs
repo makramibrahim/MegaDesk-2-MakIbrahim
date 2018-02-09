@@ -7,16 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO; 
 
 namespace MegaDesk_4_Makram_Ibrahim
 {
     public partial class DisplayQuote : Form
     {
-        public DisplayQuote(string clientName, string quoteDate, decimal width, decimal depth, 
+        public DisplayQuote(string clientName, string quoteDate, decimal width, decimal depth,
             int drawers, SurfaceMaterials material, int rushOptions, decimal quotePrice)
         {
             string rushOrder;
             InitializeComponent();
+
             if (rushOptions == 0)
             {
                 rushOrder = "none";
@@ -26,21 +28,30 @@ namespace MegaDesk_4_Makram_Ibrahim
                 rushOrder = rushOptions.ToString() + " Days";
             }
 
-            DisplQuote.Text =  "-----------------------------------------------------------------------" + Environment.NewLine +
-                                "Customer Name:                             " + clientName + Environment.NewLine +
-                               "-----------------------------------------------------------------------" + Environment.NewLine +
-                                "Desk Width:                                      " + width + " inches" + Environment.NewLine +
-                               "-----------------------------------------------------------------------" + Environment.NewLine +
-                                "Desk Depth:                                      " + depth + " inches" + Environment.NewLine +
-                               "-----------------------------------------------------------------------" + Environment.NewLine +
-                                "Desk Drawers:                                    " + drawers + Environment.NewLine +
-                               "-----------------------------------------------------------------------" + Environment.NewLine +
-                                "Desk Material:                                   " + material + Environment.NewLine +
-                              "------------------------------------------------------------------------" + Environment.NewLine +
-                                "Rush Days:                                       " + rushOrder + Environment.NewLine +
-                               "-----------------------------------------------------------------------" + Environment.NewLine;
-                                quotePrices.Text = "$" + quotePrice.ToString();
 
+            try
+            {
+                DisplQuote.Text = "-----------------------------------------------------------------------" + Environment.NewLine +
+                                    "Customer Name:                             " + clientName + Environment.NewLine +
+                                   "-----------------------------------------------------------------------" + Environment.NewLine +
+                                    "Desk Width:                                      " + width + " inches" + Environment.NewLine +
+                                   "-----------------------------------------------------------------------" + Environment.NewLine +
+                                    "Desk Depth:                                      " + depth + " inches" + Environment.NewLine +
+                                   "-----------------------------------------------------------------------" + Environment.NewLine +
+                                    "Desk Drawers:                                    " + drawers + Environment.NewLine +
+                                   "-----------------------------------------------------------------------" + Environment.NewLine +
+                                    "Desk Material:                                   " + material + Environment.NewLine +
+                                  "------------------------------------------------------------------------" + Environment.NewLine +
+                                    "Rush Days:                                       " + rushOrder + Environment.NewLine +
+                                   "-----------------------------------------------------------------------" + Environment.NewLine;
+  
+                quotePrices.Text = "$" + quotePrice.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Writing the file");
+            }
         }
 
         private void QuoteBtn_Click(object sender, EventArgs e)
