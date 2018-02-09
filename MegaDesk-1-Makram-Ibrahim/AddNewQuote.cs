@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,8 +25,7 @@ namespace MegaDesk_4_Makram_Ibrahim
         int RushOrderDays = 0;
         decimal DeskQuotePrice = 0;
         DeskQuote deskQuote = new DeskQuote();
-        string QuoteDate = DateTime.Now.ToString("dd MMMMM yyyy");
-
+        string quoteDate = DateTime.Now.ToString("dd MMMMM yyyy");
 
         //Priced items with fiexed values
         private const int RUSH_DAYS1 = 3;
@@ -197,7 +197,7 @@ namespace MegaDesk_4_Makram_Ibrahim
             WriteFile();
 
             var MainMenu = (MainMenu)Tag;
-            DisplayQuote newOrderView = new DisplayQuote(ClientName, QuoteDate, DeskWidth,
+            DisplayQuote newOrderView = new DisplayQuote(ClientName, quoteDate, DeskWidth,
                 DeskDepth, Drawers, surfMaterials, RushOrderDays, DeskQuotePrice)
             {
                 Tag = MainMenu
@@ -243,8 +243,8 @@ namespace MegaDesk_4_Makram_Ibrahim
 
                 DeskQuote NewOrder = new DeskQuote(ClientName, DateTime.Now, DeskWidth, DeskDepth,
                                         Drawers, surfMaterials, RushOrderDays);
-                DeskQuotePrice = NewOrder.CalQuoteTotal();
-                DeskQuotePrice = Math.Round(DeskQuotePrice, 2);
+                                        DeskQuotePrice = NewOrder.CalQuoteTotal();
+                                        DeskQuotePrice = Math.Round(DeskQuotePrice, 2);
 
             }
             catch (Exception ex)
@@ -258,8 +258,29 @@ namespace MegaDesk_4_Makram_Ibrahim
         {
             try
             {
-                var DeskFile = ClientName + ", Date: " + QuoteDate + ", Width: " + DeskWidth + ", Depth: " + DeskDepth
-                    + ", Drawers: " + Drawers + ", Materials: " + surfMaterials + ", Rush: " + RushOrderDays + ", $" + DeskQuotePrice;
+                //var DeskFile = ClientName + ", Date: " + QuoteDate + ", Width: " + DeskWidth + ", Depth: " + DeskDepth
+                //    + ", Drawers: " + Drawers + ", Materials: " + surfMaterials + ", Rush: " + RushOrderDays + ", $" + DeskQuotePrice;
+
+                DeskQuote deskQuote = new DeskQuote
+                {
+                    ClientName = ClientName,
+                    QuoteDate = new DateTime(),
+                    RushDays = RushOrderDays,
+                    QuotePrice = DeskQuotePrice,
+
+                    // Ldisk = new List<Desk>
+                    //{
+                        
+                    //     Width = DeskWidth,
+                    //     Depth = DeskDepth,
+                    //     NumOfDrawers = Drawers,
+                    //     surfMaterials = surfMaterials,
+                    // }
+
+                };
+
+                string json = JsonConvert.SerializeObject(deskQuote, Formatting.Indented);
+
                 string QuoteFile = @"quotes.txt";
 
                 if (!File.Exists(QuoteFile))
@@ -271,7 +292,7 @@ namespace MegaDesk_4_Makram_Ibrahim
 
                 using (StreamWriter sw = File.AppendText(QuoteFile))
                 {
-                    sw.WriteLine(DeskFile);
+                    sw.WriteLine(json);
                 }
             }
             catch (Exception ex)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MegaDesk_4_Makram_Ibrahim
 {
-    class Desk
+    struct Desk
     {
         public decimal Width                  { get; set; }
         public decimal Depth                  { get; set; }

@@ -16,6 +16,7 @@ namespace MegaDesk_4_Makram_Ibrahim
         public int RushDays { get; set; }
         public Desk Desk = new Desk();
         public decimal QuotePrice { get; set; }
+        public List<Desk> Ldisk { get; set; }
 
 
         private decimal Surface = 0;
