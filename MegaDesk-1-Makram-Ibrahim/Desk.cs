@@ -1,4 +1,13 @@
-﻿using System;
+﻿/***********************************************************
+ * Author: Makram Ibrahim
+ * Instructor: Brother Blazzard
+ * CIT 365 - .NET Software Development
+ * Date: Feb 9, 2018
+ * Summary:
+ * This is a MegaDesk window application to prompt user for input
+ * and save the data in a json file format.
+ * *********************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

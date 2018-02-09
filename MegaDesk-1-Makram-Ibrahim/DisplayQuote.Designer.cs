@@ -38,17 +38,17 @@
             // 
             this.quotePrices.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.quotePrices.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.quotePrices.Location = new System.Drawing.Point(407, 338);
+            this.quotePrices.Location = new System.Drawing.Point(418, 338);
             this.quotePrices.Name = "quotePrices";
-            this.quotePrices.Size = new System.Drawing.Size(150, 31);
+            this.quotePrices.Size = new System.Drawing.Size(125, 31);
             this.quotePrices.TabIndex = 15;
-            this.quotePrices.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.quotePrices.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(285, 340);
+            this.label3.Location = new System.Drawing.Point(296, 340);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(116, 25);
             this.label3.TabIndex = 14;
