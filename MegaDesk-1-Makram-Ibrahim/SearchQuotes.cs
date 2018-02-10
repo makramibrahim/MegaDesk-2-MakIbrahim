@@ -21,29 +21,29 @@ namespace MegaDesk_4_Makram_Ibrahim
             SearchBox.DataSource = MaterialTypeList;
         }
 
-        private void cancelSearchQuotesButton_Click(object sender, MouseEventArgs e)
+        private void CancelSearchBtn_Click(object sender, MouseEventArgs e)
         {
             var mainMenu = (MainMenu)Tag;
             mainMenu.Show();
             Close();
         }
 
-        private void searchByMaterial(object sender, EventArgs e)
+        private void SearchMaterial(object sender, EventArgs e)
         {
             searchOutput.Items.Clear();
-            SurfaceMaterials MaterialType;
+            SurfaceMaterials MaterialName;
             string searchInput = SearchBox.SelectedItem.ToString();
-            Enum.TryParse(searchInput, out MaterialType);
+            Enum.TryParse(searchInput, out MaterialName);
 
             try
             {
-                string cFile = @"quotes.txt";
-                using (StreamReader sr = new StreamReader(cFile))
+                string QuoteFile = @"quotes.txt";
+                using (StreamReader sr = new StreamReader(QuoteFile))
                 {
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        if (line.Contains(MaterialType.ToString()))
+                        if (line.Contains(MaterialName.ToString()))
                         {
                             searchOutput.Items.Add(line);
                         }
@@ -52,7 +52,7 @@ namespace MegaDesk_4_Makram_Ibrahim
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "There is a problem");
+                MessageBox.Show(ex.Message + "Error, can't read the file");
             }
         }
     }

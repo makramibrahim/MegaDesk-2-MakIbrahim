@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MegaDesk_4_Makram_Ibrahim
 {
@@ -11,15 +13,14 @@ namespace MegaDesk_4_Makram_Ibrahim
         /*************************
         * Declare some variables 
         *************************/
-        public String ClientName { get; set; }
+        public String ClientName  { get; set; }
         public DateTime QuoteDate { get; set; }
-        public int RushDays { get; set; }
-        public Desk Desk = new Desk();
+        public int RushDays       { get; set; }
+        public Desk Desk          { get; set; }
         public decimal QuotePrice { get; set; }
-        public List<Desk> Ldisk { get; set; }
-
-
-        private decimal Surface = 0;
+        public Desk desk = new Desk();
+        public decimal Surface = 0;
+        public int[,] array2D = new int[3,3];
 
 
         //Priced items with fiexed values
@@ -35,18 +36,18 @@ namespace MegaDesk_4_Makram_Ibrahim
         /******************************
         * Overloaded Constructor
         * ***************************/
-        public DeskQuote(string name, DateTime quoteDate, decimal width, decimal depth,
-            int drawers, SurfaceMaterials material, int rushDays)
+        public DeskQuote( string name, DateTime quoteDate, decimal width, decimal depth,
+                          int drawers, SurfaceMaterials material, int rushDays)
         {
             ClientName = name;
             QuoteDate = quoteDate;
-            Desk.Width = width;
-            Desk.Depth = depth;
-            Desk.surfMaterials = material;
-            Desk.NumOfDrawers = drawers;
+            desk.Width = width;
+            desk.Depth = depth;
+            desk.surfMaterials = material;
+            desk.NumOfDrawers = drawers;
             RushDays = rushDays;
 
-            Surface = Desk.Width * Desk.Depth;
+            Surface = desk.Width * desk.Depth;
         }
 
         /*******************************
@@ -65,18 +66,58 @@ namespace MegaDesk_4_Makram_Ibrahim
 
         private decimal SurfaceArea()
         {
-            decimal extraSurfaceCost = 0;
+            decimal extraCost = 0;
             if (Surface > BASE_SIZE)
             {
-                extraSurfaceCost = (Surface - BASE_SIZE) * PRICE_PER_INCH;
+                extraCost = (Surface - BASE_SIZE) * PRICE_PER_INCH;
 
             }
-            return extraSurfaceCost;
+            return extraCost;
         }
 
         private decimal DrawerCost()
         {
             return Desk.NumOfDrawers * DRAWER_PRICE;
+        }
+        /************************************
+        * Read File from RushDaus costs
+        ***********************************/
+        public int[,] ReadFileRushDays()
+        {
+            try
+            {
+                string readFile = @"C:\Users\Makram\Desktop\rushOrderPrices.txt";
+                string[] array = File.ReadAllLines(readFile);
+
+                //foreach(var i in array)
+                //{
+                //    Console.WriteLine(i);
+                //}
+
+                int store;
+                {
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        for (int j = 0; j < array.Length; j++)
+                        {
+                            if (Int32.TryParse(array[i], out store))
+                            {
+                                array2D[i, j] = store;
+                                Console.WriteLine(array[i]);
+                            }
+
+                        }
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "There is a problem");
+            }
+
+            return array2D;
         }
 
         /************************************
@@ -89,15 +130,15 @@ namespace MegaDesk_4_Makram_Ibrahim
             {
                 if (RushDays == RUSH_DAYS1)
                 {
-                    rushDays = 60;
+                    rushDays = array2D[0, 0];
                 }
                 else if (RushDays == RUSH_DAYS2)
                 {
-                    rushDays = 40;
+                    rushDays = array2D[0, 1];
                 }
                 else if (RushDays == RUSH_DAYS3)
                 {
-                    rushDays = 30;
+                    rushDays = array2D[0, 2];
                 }
                 else
                 {
@@ -108,15 +149,15 @@ namespace MegaDesk_4_Makram_Ibrahim
             {
                 if (RushDays == RUSH_DAYS1)
                 {
-                    rushDays = 70;
+                    rushDays = array2D[1, 0];
                 }
                 else if (RushDays == RUSH_DAYS2)
                 {
-                    rushDays = 50;
+                    rushDays = array2D[1, 1];
                 }
                 else if (RushDays == RUSH_DAYS3)
                 {
-                    rushDays = 35;
+                    rushDays = array2D[1, 2];
                 }
                 else
                 {
@@ -128,25 +169,27 @@ namespace MegaDesk_4_Makram_Ibrahim
             {
                 if (RushDays == RUSH_DAYS1)
                 {
-                    rushDays = 80;
+                    rushDays = array2D[2, 0];
                 }
                 else if (RushDays == RUSH_DAYS2)
                 {
-                    rushDays = 60;
+                    rushDays = array2D[2, 1];
                 }
                 else if (RushDays == RUSH_DAYS3)
                 {
-                    rushDays = 40;
+                    rushDays = array2D[2, 2];
                 }
                 else
                 {
                     rushDays = 0;
                 }
             }
-
+            MessageBox.Show(rushDays.ToString());
             return rushDays;
-
+            
         }
+        
+       
     }
 
 }

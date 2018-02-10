@@ -206,7 +206,6 @@ namespace MegaDesk_4_Makram_Ibrahim
             this.Close();
         }
 
-
         /******************************************
         * RushOrder: get the 
         * *****************************************/
@@ -268,15 +267,10 @@ namespace MegaDesk_4_Makram_Ibrahim
                     RushDays = RushOrderDays,
                     QuotePrice = DeskQuotePrice,
 
-                    // Ldisk = new List<Desk>
-                    //{
-                        
-                    //     Width = DeskWidth,
-                    //     Depth = DeskDepth,
-                    //     NumOfDrawers = Drawers,
-                    //     surfMaterials = surfMaterials,
-                    // }
-
+                    //Width = DeskWidth,
+                    //Depth = DeskDepth,
+                    //NumOfDrawers = Drawers,
+                    //surfMaterials = surfMaterials,
                 };
 
                 string json = JsonConvert.SerializeObject(deskQuote, Formatting.Indented);

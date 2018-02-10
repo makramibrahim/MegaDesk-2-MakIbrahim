@@ -44,7 +44,7 @@
             this.SearchButton.TabIndex = 1;
             this.SearchButton.Text = "Cancel";
             this.SearchButton.UseVisualStyleBackColor = true;
-            this.SearchButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cancelSearchQuotesButton_Click);
+            this.SearchButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CancelSearchBtn_Click);
             // 
             // SearchBox
             // 
@@ -55,7 +55,7 @@
             this.SearchBox.Name = "SearchBox";
             this.SearchBox.Size = new System.Drawing.Size(145, 32);
             this.SearchBox.TabIndex = 2;
-            this.SearchBox.TextChanged += new System.EventHandler(this.searchByMaterial);
+            this.SearchBox.TextChanged += new System.EventHandler(this.SearchMaterial);
             // 
             // label1
             // 
